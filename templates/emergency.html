@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Alert</title>
+  <link rel="stylesheet" href="emergency.css">
+</head>
+<body>
+  <div class="emergency-container">
+    <h1 id="message"></h1>
+    <p id="details">An emergency has been triggered. Take immediate action.</p>
+    <button id="acknowledge">Acknowledge</button>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    
+    // Listen for message from main process
+    ipcRenderer.on('emergency-set-message', (_, message) => {
+      document.getElementById('message').textContent = message;
+    });
+    
+    document.getElementById('acknowledge').addEventListener('click', () => {
+      ipcRenderer.send('emergency-ack');
+    });
+  </script>
+</body>
+</html>
